@@ -19,12 +19,12 @@ class AppController {
     try {
       const users = await dbClient.nbUsers();
       const files = await dbClient.nbFiles();
-      
+
       const stats = {
         users,
         files,
       };
-      
+
       res.status(200).json(stats);
     } catch (error) {
       console.error('Error in getStats:', error);
