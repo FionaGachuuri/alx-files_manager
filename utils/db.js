@@ -10,32 +10,33 @@ class DBClient {
     this.client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
     this.db = null;
     this.connected = false;
+
     this.connectPromise = this.client.connect()
-      .then(() => {
+      .then(async () => {
+        this.db = this.client.db(database);
+        this.connected = true;
+        console.log('Connected to MongoDB');
+
+        // Optional: Ensure collections are created
         try {
-          this.db = this.client.db(database);
-          this.connected = true;
-          console.log('Connected to MongoDB');
-
-          const createUsers = this.db.collection('users').catch((error) => {
-            if (error.codeName !== 'NamespaceExists') {
-              console.error(`Failed to create users collection: ${error.message}`);
+          await this.db.createCollection('users').catch((err) => {
+            if (err.codeName !== 'NamespaceExists') {
+              console.error(`Users collection error: ${err.message}`);
             }
-            });
-            const createFiles = this.db.collection('files').catch((error) => {
-              if (error.codeName !== 'NamespaceExists') {
-                console.error(`Failed to create files collection: ${error.message}`);
-              }
-            });
+          });
 
-            return Promise.all([createUsers, createFiles]);
-        } catch (error) {
-          console.error(`Error during MongoDB connection: ${error.message}`);
+          await this.db.createCollection('files').catch((err) => {
+            if (err.codeName !== 'NamespaceExists') {
+              console.error(`Files collection error: ${err.message}`);
+            }
+          });
+        } catch (err) {
+          console.error(`Error during collection setup: ${err.message}`);
         }
-        })
-        .catch((error) => {
-            console.error(`Failed to connect to MongoDB: ${error.message}`);
-        });
+      })
+      .catch((error) => {
+        console.error(`Failed to connect to MongoDB: ${error.message}`);
+      });
   }
 
   isAlive() {
