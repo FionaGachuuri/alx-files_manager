@@ -11,7 +11,7 @@ class AppController {
       res.status(200).json(status);
     } catch (error) {
       console.error('Error in getStatus:', error);
-      res.status(500).json({ error: 'Internal server error' });
+      res.status(500).json({ error: 'Internal server error!!' });
     }
   }
 
@@ -28,7 +28,7 @@ class AppController {
       res.status(200).json(stats);
     } catch (error) {
       console.error('Error in getStats:', error);
-      res.status(500).json({ error: 'Internal server error' });
+      res.status(500).json({ error: 'Internal server error!!' });
     }
   }
 }
