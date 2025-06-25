@@ -1,14 +1,14 @@
-// import { MongoClient } from 'mongodb';
-
-// const host = process.env.DB_HOST || 'localhost';
-// const port = process.env.DB_PORT || '27017';
-// const database = process.env.DB_DATABASE || 'file_manager';
-// const url = `mongodb://${host}:${port}`;
 import { MongoClient } from 'mongodb';
 
-const host = process.argv.DB_HOST || 'localhost';
-const port = process.argv.DB_PORT || '27017';
-const dbName = process.argv.DB_DATABASE || 'files_manager';
+const host = process.env.DB_HOST || 'localhost';
+const port = process.env.DB_PORT || '27017';
+const database = process.env.DB_DATABASE || 'file_manager';
+const url = `mongodb://${host}:${port}`;
+// import { MongoClient } from 'mongodb';
+
+// const host = process.argv.DB_HOST || 'localhost';
+// const port = process.argv.DB_PORT || '27017';
+// const dbName = process.argv.DB_DATABASE || 'files_manager';
 
 class DBClient {
   constructor() {
